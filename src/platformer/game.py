@@ -2,6 +2,7 @@ import pygame
 
 from src.platformer.entities.Entity import Entity
 from src.platformer.entities.Player import Player
+from src.platformer.stages.Stage import Stage1, StageManager
 
 pygame.init()
 display_width = 600
@@ -18,7 +19,8 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 red = (200, 0, 0)
 
-current_stage_entities = []
+stage_manager = StageManager()
+current_stage_entities = stage_manager.current_stage.get_stage()
 
 
 def draw_stage():
@@ -36,14 +38,11 @@ def draw_enemy(entity):
 
 
 def draw_nonenemy(entity):
-    pygame.draw.rect(display, black, (entity.pos_x - 1, entity.pos_y - 1, entity.size_x + 2, entity.size_y + 2))
-    pygame.draw.rect(display, white, (entity.pos_x, entity.pos_y, entity.size_x, entity.size_y))
+    pygame.draw.rect(display, black, (entity.pos_x, entity.pos_y, entity.size_x, entity.size_y))
 
-
-def get_entities():
-    platform1 = Entity(50, 100, 300, floor.pos_y - 100, False)
-    return [platform1]
-
+def draw_player():
+    pygame.draw.rect(display, black, (player.pos_x - 1, player.pos_y - 1, player.size_x + 2, player.size_y + 2))
+    pygame.draw.rect(display, white, (player.pos_x, player.pos_y, player.size_x, player.size_y))
 
 def check_floor_and_wall_collision():
     if player.pos_y >= player_y_max:
@@ -52,12 +51,17 @@ def check_floor_and_wall_collision():
 
     if player.pos_x < 0:
         player.pos_x = 0
-    elif player.pos_x > display_width - player.size_x:
-        player.pos_x = display_width - player.size_x
+    elif player.pos_x >= display_width:
+        load_next_stage()
+
+
+def load_next_stage():
+    player.go_to_start()
+    stage_manager.get_next_stage()
 
 
 draw_stage()
-draw_nonenemy(player)
+draw_player()
 pygame.display.update()
 
 game_close = False
@@ -81,11 +85,11 @@ while not game_close:
             if event.key == pygame.K_LEFT and player.change_x < 0 or event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop_x()
 
-    current_stage_entities = get_entities()
+    current_stage_entities = stage_manager.get_stage()
     player.update_pos(current_stage_entities)
     check_floor_and_wall_collision()
 
     draw_stage()
-    draw_nonenemy(player)
+    draw_player()
     pygame.display.update()
     clock.tick(60)

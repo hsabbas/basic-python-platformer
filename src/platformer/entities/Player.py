@@ -7,7 +7,7 @@ class Player(Entity):
         self.grounded = True
         self.gravity = 1
         self.jump_force = -18
-        self.movement_speed = 7
+        self.movement_speed = 5
         self.change_x = 0
         self.change_y = 0
 
@@ -60,8 +60,13 @@ class Player(Entity):
         return entity.pos_y - self.size_y < self.pos_y < entity.pos_y + entity.size_y
 
     def collides_below_with(self, entity):
-        return self.pos_y >= entity.pos_y - self.size_y + self.change_y - 1 \
+        return entity.pos_y - self.size_y <= self.pos_y <= entity.pos_y + self.change_y\
            and self.above_or_below(entity) and self.change_y >= 0
+
+    def collides_above_with(self, entity):
+        return self.change_y < 0 and \
+            entity.pos_y + entity.size_y + self.change_y <= self.pos_y < entity.pos_y + entity.size_y and \
+            self.above_or_below(entity)
 
     def check_collides_with(self, entity):
         if self.change_x > 0:
@@ -75,3 +80,10 @@ class Player(Entity):
         if self.collides_below_with(entity):
             self.pos_y = entity.pos_y - self.size_y - 1
             self.land()
+
+        if self.collides_above_with(entity):
+            self.pos_y = entity.pos_y + entity.size_y
+            self.stop_jump()
+
+    def go_to_start(self):
+        self.pos_x = 0
