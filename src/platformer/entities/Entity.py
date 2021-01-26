@@ -7,6 +7,3 @@ class Entity:
         self.enemy = is_enemy
 
 
-class Floor(Entity):
-    def __init__(self):
-        super().__init__(600, 100, 0, 300, False)
