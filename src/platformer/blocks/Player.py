@@ -1,9 +1,10 @@
-from src.platformer.entities.Entity import Entity
+from src.platformer.blocks.Block import Block
 
 
-class Player(Entity):
+class Player(Block):
     def __init__(self, size_x, size_y, pos_x, pos_y):
         super().__init__(size_x, size_y, pos_x, pos_y, False)
+        self.died = False
         self.grounded = True
         self.gravity = 1
         self.jump_force = -18
@@ -45,6 +46,10 @@ class Player(Entity):
         if self.change_y != 0:
             self.grounded = False
 
+        if self.pos_y >= 400:
+            self.died = True
+            self.pos_y = 280
+
     def above_or_below(self, entity):
         return entity.pos_x - self.size_x < self.pos_x < entity.pos_x + entity.size_x
 
@@ -69,21 +74,30 @@ class Player(Entity):
             self.above_or_below(entity)
 
     def check_collides_with(self, entity):
+        collision = False
         if self.change_x > 0:
             if self.collides_right_with(entity):
                 self.pos_x = entity.pos_x - self.size_x - 1
+                collision = True
 
         if self.change_x < 0:
             if self.collides_left_with(entity):
                 self.pos_x = entity.pos_x + entity.size_x + 1
+                collision = True
 
         if self.collides_below_with(entity):
             self.pos_y = entity.pos_y - self.size_y - 1
             self.land()
+            collision = True
 
         if self.collides_above_with(entity):
             self.pos_y = entity.pos_y + entity.size_y
             self.stop_jump()
+            collision = True
+
+        if collision and entity.enemy:
+            self.died = True
 
     def go_to_start(self):
-        self.pos_x = 0
+        self.pos_x = 5
+        self.died = False
