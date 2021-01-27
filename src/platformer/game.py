@@ -22,11 +22,11 @@ current_stage_block = stage_manager.current_stage.get_stage()
 
 def draw_stage():
     display.fill(white)
-    for entity in current_stage_block:
-        if entity.enemy:
-            draw_enemy(entity)
+    for block in current_stage_block:
+        if block.enemy:
+            draw_enemy(block)
         else:
-            draw_block(entity)
+            draw_block(block)
 
 
 def draw_enemy(block):
