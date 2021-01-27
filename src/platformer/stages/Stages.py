@@ -72,4 +72,4 @@ class Stage5(Stage):
 
     def get_stage(self):
         self.enemy1.move_block()
-        return [self.enemy1, CommonBlocks.get_floor(), CommonBlocks.get_left_wall(), CommonBlocks.get_right_wall()]
+        return [self.enemy1, CommonBlocks.get_floor(), CommonBlocks.get_left_wall()]
