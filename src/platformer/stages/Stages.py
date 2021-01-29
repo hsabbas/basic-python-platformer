@@ -4,8 +4,7 @@ from src.platformer.blocks.MovingBlock import MovingBlock
 
 class StageManager:
     def __init__(self):
-        self.stage_number = 0
-        self.current_stage = self.get_next_stage()
+        self.current_stage = self.load_stage(1)
 
     def reset(self):
         self.__init__()
@@ -13,8 +12,7 @@ class StageManager:
     def get_stage(self):
         return self.current_stage.get_stage()
 
-    def get_next_stage(self):
-        self.stage_number += 1
+    def load_stage(self, stage_number):
         stage_map = {
             1: Stage1(),
             2: Stage2(),
@@ -31,11 +29,7 @@ class StageManager:
             13: Stage13(),
             14: Stage14()
         }
-        self.current_stage = stage_map[self.stage_number]
-        return self.current_stage
-
-    def get_stage_number(self):
-        return self.stage_number
+        self.current_stage = stage_map[stage_number]
 
 
 class Stage:
@@ -166,7 +160,7 @@ class Stage12(Stage):
 class Stage13(Stage):
     def __init__(self):
         self.platforms = []
-        self.platforms.append(Block(598, 20, 1, 100, False))
+        self.platforms.append(Block(599, 20, 1, 100, False))
         self.platforms.append(Block(610, 20, -5, 380, False))
         self.platforms.append(Block(55, 105, 550, 300, False))
         self.enemy1 = MovingBlock(20, 20, 140, 360, True, 0, 530, 360, 360, 5, 0)
@@ -182,7 +176,7 @@ class Stage13(Stage):
 
 class Stage14(Stage):
     def __init__(self):
-        self.platform1 = Block(598, 20, 1, 100, False)
+        self.platform1 = Block(600, 20, 0, 100, False)
         self.enemy1 = MovingBlock(20, 20, 180, 80, True, 0, 580, 80, 80, 4, 0)
         self.enemy2 = MovingBlock(20, 20, 380, 80, True, 0, 580, 80, 80, 4, 0)
         self.enemy3 = MovingBlock(20, 20, 580, 80, True, 0, 580, 80, 80, 4, 0)
