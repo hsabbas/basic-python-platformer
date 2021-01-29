@@ -14,8 +14,8 @@ class CommonBlocks:
 
     @staticmethod
     def get_left_wall():
-        return Block(1, 400, -2, 0, False)
+        return Block(1, 600, -2, -100, False)
 
     @staticmethod
     def get_right_wall():
-        return Block(1, 400, 601, 0, False)
+        return Block(1, 600, 601, -100, False)

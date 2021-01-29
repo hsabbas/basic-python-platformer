@@ -17,12 +17,12 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 
 stage_manager = StageManager()
-current_stage_block = stage_manager.current_stage.get_stage()
+current_stage_blocks = stage_manager.current_stage.get_stage()
 
 
 def draw_stage():
     display.fill(white)
-    for block in current_stage_block:
+    for block in current_stage_blocks:
         if block.enemy:
             draw_enemy(block)
         else:
@@ -30,6 +30,7 @@ def draw_stage():
 
 
 def draw_enemy(block):
+    pygame.draw.rect(display, black, (block.pos_x - 1, block.pos_y - 1, block.size_x + 2, block.size_y + 2))
     pygame.draw.rect(display, red, (block.pos_x, block.pos_y, block.size_x, block.size_y))
 
 
@@ -63,16 +64,16 @@ while not game_close:
             pygame.quit()
             quit()
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print(event)
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 player.move_right()
             if event.key == pygame.K_LEFT:
                 player.move_left()
-            if event.key == pygame.K_x:
+            if event.key == pygame.K_SPACE:
                 player.jump()
-            if event.key == pygame.K_z:
-                print(player.pos_x)
-                print(player.pos_y)
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_x:
@@ -81,14 +82,14 @@ while not game_close:
                     or event.key == pygame.K_RIGHT and player.change_x > 0:
                 player.stop_x()
 
-    current_stage_block = stage_manager.get_stage()
-    player.update_pos(current_stage_block)
+    current_stage_blocks = stage_manager.get_stage()
+    player.update_pos(current_stage_blocks)
     check_next_stage()
 
     draw_game()
     pygame.display.update()
     if player.died:
         stage_manager.reset()
-        current_stage_block = stage_manager.get_stage()
+        current_stage_blocks = stage_manager.get_stage()
         player.go_to_start()
     clock.tick(60)
