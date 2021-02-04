@@ -19,7 +19,7 @@ class Game:
     red = (255, 0, 0)
 
     stage_manager = StageManager()
-    current_stage_number = 2
+    current_stage_number = 1
     stage_manager.load_stage(current_stage_number)
     current_stage_blocks = stage_manager.get_stage()
 
