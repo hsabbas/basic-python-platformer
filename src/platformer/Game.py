@@ -19,7 +19,7 @@ class Game:
     red = (255, 0, 0)
 
     stage_manager = StageManager()
-    current_stage_number = 1
+    current_stage_number = 2
     stage_manager.load_stage(current_stage_number)
     current_stage_blocks = stage_manager.get_stage()
 
@@ -52,6 +52,13 @@ class Game:
         self.current_stage_number += 1
         self.stage_manager.load_stage(self.current_stage_number)
         self.current_stage_blocks = self.stage_manager.get_stage()
+
+    def check_death(self):
+        if self.player.dead:
+            self.current_stage_number = 1
+            self.stage_manager.load_stage(self.current_stage_number)
+            self.current_stage_blocks = self.stage_manager.get_stage()
+            self.player.go_to_start()
 
     def main(self):
         self.draw_game()
@@ -88,10 +95,7 @@ class Game:
 
             self.draw_game()
             pygame.display.update()
-            if self.player.died:
-                self.stage_manager.reset()
-                self.current_stage_blocks = self.stage_manager.get_stage()
-                self.player.go_to_start()
+            self.check_death()
             self.clock.tick(60)
 
 

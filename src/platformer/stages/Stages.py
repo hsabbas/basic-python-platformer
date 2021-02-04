@@ -4,7 +4,7 @@ from src.platformer.blocks.MovingBlock import MovingBlock
 
 class StageManager:
     def __init__(self):
-        self.current_stage = self.load_stage(1)
+        self.current_stage = Stage1()
 
     def reset(self):
         self.__init__()
@@ -27,7 +27,9 @@ class StageManager:
             11: Stage11(),
             12: Stage12(),
             13: Stage13(),
-            14: Stage14()
+            14: Stage14(),
+            15: Stage15(),
+            16: Stage16()
         }
         self.current_stage = stage_map[stage_number]
 
@@ -44,10 +46,10 @@ class Stage1(Stage):
 
 class Stage2(Stage):
     def __init__(self):
-        self.platform1 = Block(200, 100, 200, 200, False)
+        self.platform1 = Block(200, 99, 200, 200, False)
 
     def get_stage(self):
-        return [self.platform1, CommonBlocks.get_floor(), CommonBlocks.get_left_wall()]
+        return [CommonBlocks.get_floor(), self.platform1, CommonBlocks.get_left_wall()]
 
 
 class Stage3(Stage):
@@ -55,10 +57,10 @@ class Stage3(Stage):
         self.platforms = []
         self.platforms.append(Block(75, 30, 160, 200, False))
         self.platforms.append(Block(75, 30, 310, 130, False))
-        self.platforms.append(Block(120, 200, 485, 100, False))
+        self.platforms.append(Block(120, 199, 485, 100, False))
 
     def get_stage(self):
-        return self.platforms + [CommonBlocks.get_left_wall(), CommonBlocks.get_floor()]
+        return [CommonBlocks.get_left_wall(), CommonBlocks.get_floor()] + self.platforms
 
 
 class Stage4(Stage):
@@ -91,16 +93,15 @@ class Stage6(Stage):
         self.platforms.append(Block(50, 300, 550, 100, False))
 
     def get_stage(self):
-        return self.platforms + [self.floor1, CommonBlocks.get_left_wall()]
+        return [self.floor1, CommonBlocks.get_left_wall()] + self.platforms
 
 
 class Stage7(Stage):
     def __init__(self):
-        self.enemies = []
-        self.enemies.append(Block(40, 40, 280, 260, True))
+        self.enemy1 = Block(40, 40, 280, 259, True)
 
     def get_stage(self):
-        return self.enemies + [CommonBlocks.get_left_wall(), CommonBlocks.get_floor()]
+        return [CommonBlocks.get_left_wall(), CommonBlocks.get_floor(), self.enemy1]
 
 
 class Stage8(Stage):
@@ -108,7 +109,7 @@ class Stage8(Stage):
         self.enemy1 = MovingBlock(20, 20, 560, 280, True, 0, 580, 280, 280, 5, 0)
 
     def get_stage(self):
-        self.enemy1.move_block()
+        self.enemy1.update_pos()
         return [self.enemy1, CommonBlocks.get_floor(), CommonBlocks.get_left_wall()]
 
 
@@ -119,7 +120,7 @@ class Stage9(Stage):
         self.enemy1 = MovingBlock(20, 20, 290, 0, True, 290, 290, 40, 300, 0, 5)
 
     def get_stage(self):
-        self.enemy1.move_block()
+        self.enemy1.update_pos()
         return [self.floor1, self.floor2, self.enemy1, CommonBlocks.get_left_wall()]
 
 
@@ -139,7 +140,7 @@ class Stage11(Stage):
         self.enemy1 = MovingBlock(20, 20, 560, 280, True, 0, 580, 280, 280, 10, 0)
 
     def get_stage(self):
-        self.enemy1.move_block()
+        self.enemy1.update_pos()
         return [self.enemy1, CommonBlocks.get_floor(), CommonBlocks.get_left_wall()]
 
 
@@ -154,7 +155,7 @@ class Stage12(Stage):
         self.platforms.append(Block(100, 300, 500, 0, False))
 
     def get_stage(self):
-        return self.platforms + [CommonBlocks.get_left_wall()]
+        return [CommonBlocks.get_left_wall()] + self.platforms
 
 
 class Stage13(Stage):
@@ -168,22 +169,49 @@ class Stage13(Stage):
         self.enemy3 = MovingBlock(20, 20, 530, 360, True, 0, 530, 360, 360, 5, 0)
 
     def get_stage(self):
-        self.enemy1.move_block()
-        self.enemy2.move_block()
-        self.enemy3.move_block()
-        return self.platforms + [self.enemy1, self.enemy2, self.enemy3, CommonBlocks.get_left_wall()]
+        self.enemy1.update_pos()
+        self.enemy2.update_pos()
+        self.enemy3.update_pos()
+        return [self.enemy1, self.enemy2, self.enemy3, CommonBlocks.get_left_wall()] + self.platforms
 
 
 class Stage14(Stage):
     def __init__(self):
         self.platform1 = Block(600, 20, 0, 100, False)
-        self.enemy1 = MovingBlock(20, 20, 180, 80, True, 0, 580, 80, 80, 4, 0)
-        self.enemy2 = MovingBlock(20, 20, 380, 80, True, 0, 580, 80, 80, 4, 0)
-        self.enemy3 = MovingBlock(20, 20, 580, 80, True, 0, 580, 80, 80, 4, 0)
+        self.enemy1 = MovingBlock(20, 20, 180, 79, True, 0, 580, 79, 79, 4, 0)
+        self.enemy2 = MovingBlock(20, 20, 380, 79, True, 0, 580, 79, 79, 4, 0)
+        self.enemy3 = MovingBlock(20, 20, 580, 79, True, 0, 580, 79, 79, 4, 0)
 
     def get_stage(self):
-        self.enemy1.move_block()
-        self.enemy2.move_block()
-        self.enemy3.move_block()
-        return [self.platform1, self.enemy1, self.enemy2, self.enemy3, CommonBlocks.get_left_wall(),
-                CommonBlocks.get_floor(), CommonBlocks.get_right_wall()]
+        self.enemy1.update_pos()
+        self.enemy2.update_pos()
+        self.enemy3.update_pos()
+        return [self.platform1, self.enemy1, self.enemy2, self.enemy3, CommonBlocks.get_left_wall(), CommonBlocks.get_floor()]
+
+
+class Stage15(Stage):
+    def __init__(self):
+        self.platforms = []
+        self.platforms.append(Block(125, 20, -5, 100, False))
+        self.platforms.append(Block(125, 100, -5, 300, False))
+        self.platforms.append(Block(125, 100, 480, 300, False))
+        self.platforms.append(Block(200, 20, 200, 200, False))
+        self.enemy1 = MovingBlock(20, 20, 200, 179, True, 200, 380, 179, 179, 5, 0)
+
+    def get_stage(self):
+        self.enemy1.update_pos()
+        return [self.enemy1, CommonBlocks.get_left_wall()] + self.platforms
+
+
+class Stage16(Stage):
+    def __init__(self):
+        self.enemies = []
+        self.enemies.append(MovingBlock(20, 20, 100, 320, True, 100, 100, 40, 320, 0, 5))
+        self.enemies.append(MovingBlock(20, 20, 300, 40, True, 300, 300, 40, 320, 0, 5))
+        self.enemies.append(MovingBlock(20, 20, 500, 320, True, 500, 500, 40, 320, 0, 5))
+
+    def get_stage(self):
+        self.enemies[0].update_pos()
+        self.enemies[1].update_pos()
+        self.enemies[2].update_pos()
+        return self.enemies + [CommonBlocks.get_left_wall(), CommonBlocks.get_floor(), CommonBlocks.get_right_wall()]

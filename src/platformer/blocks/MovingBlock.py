@@ -11,7 +11,7 @@ class MovingBlock(Block):
         self.speed_x = speed_x
         self.speed_y = -speed_y
 
-    def move_block(self):
+    def update_pos(self):
         self.pos_x += self.speed_x
         self.pos_y += self.speed_y
 
