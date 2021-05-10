@@ -1,5 +1,3 @@
 # basic-python-platformer
-Practice with pygame
-
-This is a simple game project I'm doing to practice python and pygame.
-My goal is to do all the movement and collision logic with no outside references.
+This is a simple game project I did to practice python.
+All the movement and collision logic I came up with myself. Pygame is only used for the 60 fps game loop, and display.
