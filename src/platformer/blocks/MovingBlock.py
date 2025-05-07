@@ -1,4 +1,4 @@
-from src.platformer.blocks.Block import Block
+from blocks.Block import Block
 
 
 class MovingBlock(Block):

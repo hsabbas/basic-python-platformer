@@ -1,7 +1,7 @@
 import pygame
 
-from src.platformer.blocks.Player import Player
-from src.platformer.stages.Stages import StageManager
+from blocks.Player import Player
+from stages.Stages import StageManager
 
 
 class Game:

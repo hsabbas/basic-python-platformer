@@ -1,5 +1,5 @@
-from src.platformer.blocks.Block import Block, CommonBlocks
-from src.platformer.blocks.MovingBlock import MovingBlock
+from blocks.Block import Block, CommonBlocks
+from blocks.MovingBlock import MovingBlock
 
 
 class StageManager:
